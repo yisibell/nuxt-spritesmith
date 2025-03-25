@@ -13,6 +13,7 @@
 > A Nuxt(3) module for generate sprite image icons via [spritesmith](https://github.com/twolfson/spritesmith) 
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
+- Support Multi sprite sheet generation.
 
 
 ## Features
@@ -70,8 +71,12 @@ That's it! You can now use **nuxt-spritesmith** in your Nuxt app ✨
 
 | Key | Default value | Description |
 | :---: | :---: | :---: |
-| `srcDir`| `assets/sprites` | - |
-| `outputDir` | `public/sprites` | - |
+| `srcDir`| `assets/sprites` | Sprite image source dir |
+| `outputDir` | `public/sprites` | Sprite sheet outout dir |
+| `spriteConfig` | - | Config of spritesmith generate CSS options |
+| `retina` | - | Config for retina |
+| `prefix` | `'sprite-'` | Define sprite icon class name prefix |
+| `cssTemplate` | `'sprite-'` | Custom css template |
 
 ## Development
 
