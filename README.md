@@ -76,7 +76,7 @@ That's it! You can now use **nuxt-spritesmith** in your Nuxt app ✨
 | `spriteConfig` | - | Spritesmith generate CSS options |
 | `retina` | - | Config for retina |
 | `prefix` | `'sprite-'` | Define sprite icon class name prefix |
-| `cssTemplate` | `'sprite-'` | Custom css template |
+| `cssTemplate` | - | Custom css template |
 
 ## Development
 
