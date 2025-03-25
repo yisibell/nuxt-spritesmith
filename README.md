@@ -13,12 +13,12 @@
 > A Nuxt(3) module for generate sprite image icons via [spritesmith](https://github.com/twolfson/spritesmith) 
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
-- Support Multi sprite sheet generation.
 
 
 ## Features
 
 - Powered by [spritesmith](https://github.com/twolfson/spritesmith).
+- Support Multi sprite sheet generation.
 
 
 ## Quick Setup
