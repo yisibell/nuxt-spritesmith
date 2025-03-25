@@ -1,6 +1,6 @@
 {
   "name": "nuxt-spritesmith",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Nuxt(3) module for generate sprite image icons via spritesmith.",
   "author": {
     "name": "elenh",
