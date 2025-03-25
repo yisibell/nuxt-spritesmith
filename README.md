@@ -72,8 +72,8 @@ That's it! You can now use **nuxt-spritesmith** in your Nuxt app ✨
 | Key | Default value | Description |
 | :---: | :---: | :---: |
 | `srcDir`| `assets/sprites` | Sprite image source dir |
-| `outputDir` | `public/sprites` | Sprite sheet outout dir |
-| `spriteConfig` | - | Config of spritesmith generate CSS options |
+| `outputDir` | `public/sprites` | Sprite sheet output dir |
+| `spriteConfig` | - | Spritesmith generate CSS options |
 | `retina` | - | Config for retina |
 | `prefix` | `'sprite-'` | Define sprite icon class name prefix |
 | `cssTemplate` | `'sprite-'` | Custom css template |
