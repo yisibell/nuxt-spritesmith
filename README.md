@@ -77,7 +77,7 @@ That's it! You can now use **nuxt-spritesmith** in your Nuxt app ✨
 | `retina` | - | Config for retina |
 | `prefix` | `'sprite-'` | Define sprite icon class name prefix |
 | `cssTemplate` | - | Custom css template |
-| `enableDevWatch` | - | Weather to enable watcher for the development env |
+| `enableDevWatch` | - | Whether to enable watcher for the development env |
 
 ## Development
 
