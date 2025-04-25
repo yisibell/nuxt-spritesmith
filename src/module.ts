@@ -17,6 +17,7 @@ export interface SpritesmithGenerateCSSOptions {
     standard?: SpritesmithResult
     retina?: SpritesmithResult
   }
+
 }
 
 export interface ModuleOptions {
@@ -30,6 +31,7 @@ export interface ModuleOptions {
   }
   prefix: string
   cssTemplate?: (opts: SpritesmithGenerateCSSOptions) => string
+  enableDevWatch?: boolean
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -215,7 +217,7 @@ export default defineNuxtModule<ModuleOptions>({
     })
 
     // 开发模式监听
-    if (nuxt.options.dev) {
+    if (nuxt.options.dev && moduleOptions.enableDevWatch) {
       const watcher = chokidar.watch(
         resolve(nuxt.options.srcDir, moduleOptions.srcDir),
         { ignoreInitial: true },
