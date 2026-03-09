@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.2.0
+
+[compare changes](https://github.com/yisibell/nuxt-spritesmith/compare/v1.1.0...v1.2.0)
+
+### 🚀 Enhancements
+
+- Upgrade module options types and Abandoned development environment watch mode ([0cd6ea1](https://github.com/yisibell/nuxt-spritesmith/commit/0cd6ea1))
+
+### ❤️ Contributors
+
+- Wenqing <wenqing@kerrylan.com>
+
 ## v1.1.0
 
 [compare changes](https://github.com/yisibell/nuxt-spritesmith/compare/v1.0.1...v1.1.0)
