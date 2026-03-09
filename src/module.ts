@@ -1,11 +1,16 @@
 import path from 'node:path'
-import { defineNuxtModule, useLogger, addTemplate, createResolver } from '@nuxt/kit'
+import {
+  defineNuxtModule,
+  useLogger,
+  addTemplate,
+  createResolver,
+} from '@nuxt/kit'
 import fs from 'fs-extra'
-import chokidar from 'chokidar'
 import Spritesmith from 'spritesmith'
 import fg from 'fast-glob'
 
-export type SpritesmithProcessImagesOptions = Spritesmith.SpritesmithProcessImagesOptions
+export type SpritesmithProcessImagesOptions =
+  Spritesmith.SpritesmithProcessImagesOptions
 
 export type SpritesmithResult = Spritesmith.SpritesmithResult
 
@@ -17,20 +22,31 @@ export interface SpritesmithGenerateCSSOptions {
     standard?: SpritesmithResult
     retina?: SpritesmithResult
   }
-
 }
 
 export interface ModuleOptions {
+  /**
+   * 图片源目录
+   */
   srcDir: string
+  /**
+   * 雪碧图输出目录
+   */
   outputDir: string
   spriteConfig: SpritesmithProcessImagesOptions
-  retina: {
-    enabled: boolean
-    suffix: string
-    ratio: number
+  /** retina 屏配置 */
+  retina?: {
+    /** 是否开启 retina 屏适配 */
+    enabled?: boolean
+    /** 文件名后缀，默认为: @2x */
+    suffix?: string
+    ratio?: number
   }
   prefix: string
   cssTemplate?: (opts: SpritesmithGenerateCSSOptions) => string
+  /**
+   * @deprecated Abandoned development environment watch mode
+   */
   enableDevWatch?: boolean
 }
 
@@ -47,14 +63,16 @@ export default defineNuxtModule<ModuleOptions>({
       algorithm: 'binary-tree',
       exportOpts: { format: 'png' },
     },
-    retina: {
-      enabled: true,
-      suffix: '@2x',
-      ratio: 2,
-    },
     prefix: 'sprite-',
   },
   async setup(moduleOptions, nuxt) {
+    const retinaOptions = {
+      enabled: true,
+      suffix: '@2x',
+      ratio: 2,
+      ...moduleOptions.retina,
+    } satisfies ModuleOptions['retina']
+
     const { resolve } = createResolver(import.meta.url)
 
     const logger = useLogger()
@@ -71,13 +89,25 @@ export default defineNuxtModule<ModuleOptions>({
     const generateSprite = async (dir: string) => {
       const spriteModuleName = dir.replace(/\//g, '-')
       const basePath = resolve(nuxt.options.srcDir, moduleOptions.srcDir, dir)
-      const standardSpritesheetPath = resolve(nuxt.options.srcDir, moduleOptions.outputDir, `${spriteModuleName}.png`).replace(/\\/g, '/')
-      const retinaSpritesheetPath = resolve(nuxt.options.srcDir, moduleOptions.outputDir, `${spriteModuleName}${moduleOptions.retina.suffix}.png`).replace(/\\/g, '/')
+      const standardSpritesheetPath = resolve(
+        nuxt.options.srcDir,
+        moduleOptions.outputDir,
+        `${spriteModuleName}.png`,
+      ).replace(/\\/g, '/')
+      const retinaSpritesheetPath = resolve(
+        nuxt.options.srcDir,
+        moduleOptions.outputDir,
+        `${spriteModuleName}${retinaOptions.suffix}.png`,
+      ).replace(/\\/g, '/')
 
       // 获取图片文件
       const [standardImages, retinaImages] = await Promise.all([
-        fg.glob(`!(*${moduleOptions.retina.suffix}).{png,jpg,jpeg}`, { cwd: basePath }),
-        fg.glob(`*${moduleOptions.retina.suffix}.{png,jpg,jpeg}`, { cwd: basePath }),
+        fg.glob(`!(*${retinaOptions.suffix}).{png,jpg,jpeg}`, {
+          cwd: basePath,
+        }),
+        fg.glob(`*${retinaOptions.suffix}.{png,jpg,jpeg}`, {
+          cwd: basePath,
+        }),
       ])
 
       const results: {
@@ -96,30 +126,32 @@ export default defineNuxtModule<ModuleOptions>({
       }
 
       // 生成 Retina 雪碧图
-      if (moduleOptions.retina.enabled && retinaImages.length > 0) {
+      if (retinaOptions.enabled && retinaImages.length > 0) {
         results.retina = await generateSpriteSheet({
           dir,
           images: retinaImages,
-          scale: moduleOptions.retina.ratio,
+          scale: retinaOptions.ratio,
           output: retinaSpritesheetPath,
         })
       }
 
       // 生成 CSS
       if (results.standard || results.retina) {
-        await generateCSS({ spriteModuleName, standardSpritesheetPath, retinaSpritesheetPath, results })
+        await generateCSS({
+          spriteModuleName,
+          standardSpritesheetPath,
+          retinaSpritesheetPath,
+          results,
+        })
       }
     }
 
-    const generateSpriteSheet = async (
-      opts: {
-        dir: string
-        images: string[]
-        scale: number
-        output: string
-      },
-
-    ): Promise<SpritesmithResult> => {
+    const generateSpriteSheet = async (opts: {
+      dir: string
+      images: string[]
+      scale: number
+      output: string
+    }): Promise<SpritesmithResult> => {
       const { dir, images, scale, output } = opts
 
       const fullPaths = images.map(img =>
@@ -127,27 +159,35 @@ export default defineNuxtModule<ModuleOptions>({
       )
 
       return new Promise((resolve, reject) => {
-        Spritesmith.run({
-          src: fullPaths,
-          ...moduleOptions.spriteConfig,
-          padding: (moduleOptions.spriteConfig.padding || 0) * scale,
-        }, (err, result) => {
-          if (err) {
-            reject(err)
-            return
-          }
+        Spritesmith.run(
+          {
+            src: fullPaths,
+            ...moduleOptions.spriteConfig,
+            padding: (moduleOptions.spriteConfig.padding || 0) * scale,
+          },
+          (err, result) => {
+            if (err) {
+              reject(err)
+              return
+            }
 
-          fs.writeFile(output, result.image).then(() => {
-            resolve(result)
-          }).catch(reject)
-        })
+            fs.writeFile(output, result.image)
+              .then(() => {
+                resolve(result)
+              })
+              .catch(reject)
+          },
+        )
       })
     }
 
-    const generateCSS = async (
-      opts: SpritesmithGenerateCSSOptions,
-    ) => {
-      const { spriteModuleName, standardSpritesheetPath, retinaSpritesheetPath, results } = opts
+    const generateCSS = async (opts: SpritesmithGenerateCSSOptions) => {
+      const {
+        spriteModuleName,
+        standardSpritesheetPath,
+        retinaSpritesheetPath,
+        results,
+      } = opts
       const iconPrefix = `${moduleOptions.prefix}${spriteModuleName}`
       const iconImageClassName = iconPrefix
 
@@ -164,8 +204,12 @@ export default defineNuxtModule<ModuleOptions>({
           background-image: url('${standardSpritesheetPath}');
         }\n`
 
-          for (const [filename, data] of Object.entries(results.standard.coordinates)) {
-            const iconName = path.basename(filename, path.extname(filename)).replace('@2x', '')
+          for (const [filename, data] of Object.entries(
+            results.standard.coordinates,
+          )) {
+            const iconName = path
+              .basename(filename, path.extname(filename))
+              .replace('@2x', '')
 
             cssContent += `
             .${iconPrefix}--${iconName} {
@@ -180,8 +224,8 @@ export default defineNuxtModule<ModuleOptions>({
         if (results.retina) {
           cssContent += `
             @media
-              (-webkit-min-device-pixel-ratio: ${moduleOptions.retina.ratio}),
-              (min-resolution: ${moduleOptions.retina.ratio * 96}dpi) {
+              (-webkit-min-device-pixel-ratio: ${retinaOptions.ratio}),
+              (min-resolution: ${retinaOptions.ratio * 96}dpi) {
               .${iconImageClassName} {
                 background-image: url('${retinaSpritesheetPath}');
                 background-size: ${results.standard?.properties.width || 0}px auto;
@@ -216,24 +260,6 @@ export default defineNuxtModule<ModuleOptions>({
       await Promise.all(spriteDirs.map(generateSprite))
     })
 
-    // 开发模式监听
-    if (nuxt.options.dev && moduleOptions.enableDevWatch) {
-      const watcher = chokidar.watch(
-        resolve(nuxt.options.srcDir, moduleOptions.srcDir),
-        { ignoreInitial: true },
-      )
-
-      watcher.on('all', async (event, filePath) => {
-        const dir = resolve(
-          resolve(nuxt.options.srcDir, moduleOptions.srcDir),
-          path.dirname(filePath),
-        )
-
-        await generateSprite(dir)
-
-        logger.success(`Regenerated sprite for: ${dir}`)
-      })
-    }
+    // todo: Development environment watch mode
   },
-
 })

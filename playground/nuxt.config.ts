@@ -9,6 +9,8 @@ export default defineNuxtConfig({
 
   spritesmith: {
     // ...
+    retina: {
+      enabled: true,
+    },
   },
-
 })
