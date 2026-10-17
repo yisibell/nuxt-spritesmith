@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v1.2.2
+
+[compare changes](https://github.com/yisibell/nuxt-spritesmith/compare/v1.2.1...v1.2.2)
+
+### 💅 Refactors
+
+- Supports config spritesmith engine ([3f2bae8](https://github.com/yisibell/nuxt-spritesmith/commit/3f2bae8))
+
+### 🤖 CI
+
+- Supports deploy to vercel ([5646ee2](https://github.com/yisibell/nuxt-spritesmith/commit/5646ee2))
+
+### ❤️ Contributors
+
+- Elenh <yisiwings@163.com>
+
 ## v1.2.1
 
 [compare changes](https://github.com/yisibell/nuxt-spritesmith/compare/v1.2.0...v1.2.1)
