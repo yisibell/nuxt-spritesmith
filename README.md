@@ -45,8 +45,24 @@ export default defineNuxtConfig({
   ],
   // custom nuxt-spritesmith options
   spritesmith: {
-    // ...
+    engine: 'sharpsmith',
+    engineOpts: {
+      concurrentFileLimit: 4
+    }
   }
+})
+```
+
+You can also pass an engine constructor directly:
+
+```ts
+import SharpSmith from 'sharpsmith'
+
+export default defineNuxtConfig({
+  modules: ['nuxt-spritesmith'],
+  spritesmith: {
+    engine: SharpSmith,
+  },
 })
 ```
 
@@ -66,6 +82,43 @@ export default defineNuxtConfig({
 
 That's it! You can now use **nuxt-spritesmith** in your Nuxt app ✨
 
+## Custom engine
+
+By default, the module uses the `sharpsmith` engine. You can explicitly select
+another installed engine, such as `pixelsmith`, by package name:
+
+```bash
+pnpm add -D nuxt-spritesmith sharpsmith
+```
+
+```ts
+export default defineNuxtConfig({
+  modules: ['nuxt-spritesmith'],
+  spritesmith: {
+    engine: 'sharpsmith',
+    engineOpts: {
+      concurrentFileLimit: 4,
+    },
+  },
+})
+```
+
+The engine constructor can also be passed directly:
+
+```ts
+import SharpSmith from 'sharpsmith'
+
+export default defineNuxtConfig({
+  modules: ['nuxt-spritesmith'],
+  spritesmith: {
+    engine: SharpSmith,
+  },
+})
+```
+
+`engineOpts` is forwarded to the selected engine constructor. The engine must
+implement `spritesmith-engine-spec@2.0.0`.
+
 
 ## Options
 
@@ -73,11 +126,21 @@ That's it! You can now use **nuxt-spritesmith** in your Nuxt app ✨
 | :---: | :---: | :---: |
 | `srcDir`| `assets/sprites` | Sprite image source dir |
 | `outputDir` | `public/sprites` | Sprite sheet output dir |
+| `engine` | `sharpsmith` | Spritesmith engine package name or constructor |
+| `engineOpts` | - | Options forwarded to the engine constructor |
 | `spriteConfig` | - | Spritesmith generate CSS options |
 | `retina` | - | Config for retina |
 | `prefix` | `'sprite-'` | Define sprite icon class name prefix |
 | `cssTemplate` | - | Custom css template |
 | `enableDevWatch` | - | Whether to enable watcher for the development env |
+
+The module scans the first-level directories under `srcDir`. For example,
+`assets/sprites/payment/*.png` generates `public/sprites/payment.png` and the
+corresponding CSS classes use the configured `prefix`.
+
+When Retina support is enabled, files ending with `@2x` are grouped into a
+second sprite sheet, such as `payment@2x.png`, and CSS is generated with a
+device-pixel-ratio media query.
 
 ## Development
 
@@ -104,3 +167,7 @@ pnpm test:watch
 # Release new version
 npm run release
 ```
+
+The test suite uses Vitest and Nuxt Test Utils. It covers SSR rendering,
+standard and Retina sprite generation, engine configuration, generated CSS,
+and cleanup of temporary fixture files.

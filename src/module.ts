@@ -9,46 +9,20 @@ import fs from 'fs-extra'
 import Spritesmith from 'spritesmith'
 import fg from 'fast-glob'
 
-export type SpritesmithProcessImagesOptions =
-  Spritesmith.SpritesmithProcessImagesOptions
+import type {
+  ModuleOptions,
+  SpritesmithGenerateCSSOptions,
+  SpritesmithResult,
+} from './types'
 
-export type SpritesmithResult = Spritesmith.SpritesmithResult
-
-export interface SpritesmithGenerateCSSOptions {
-  spriteModuleName: string
-  standardSpritesheetPath: string
-  retinaSpritesheetPath: string
-  results: {
-    standard?: SpritesmithResult
-    retina?: SpritesmithResult
-  }
-}
-
-export interface ModuleOptions {
-  /**
-   * 图片源目录
-   */
-  srcDir: string
-  /**
-   * 雪碧图输出目录
-   */
-  outputDir: string
-  spriteConfig: SpritesmithProcessImagesOptions
-  /** retina 屏配置 */
-  retina?: {
-    /** 是否开启 retina 屏适配 */
-    enabled?: boolean
-    /** 文件名后缀，默认为: @2x */
-    suffix?: string
-    ratio?: number
-  }
-  prefix: string
-  cssTemplate?: (opts: SpritesmithGenerateCSSOptions) => string
-  /**
-   * @deprecated Abandoned development environment watch mode
-   */
-  enableDevWatch?: boolean
-}
+export type {
+  ModuleOptions,
+  SpritesmithEngine,
+  SpritesmithEngineConstructor,
+  SpritesmithGenerateCSSOptions,
+  SpritesmithProcessImagesOptions,
+  SpritesmithResult,
+} from './types'
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -58,6 +32,7 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {
     srcDir: 'assets/sprites',
     outputDir: 'public/sprites',
+    engine: 'sharpsmith',
     spriteConfig: {
       padding: 5,
       algorithm: 'binary-tree',
@@ -164,6 +139,8 @@ export default defineNuxtModule<ModuleOptions>({
             src: fullPaths,
             ...moduleOptions.spriteConfig,
             padding: (moduleOptions.spriteConfig.padding || 0) * scale,
+            engine: moduleOptions.engine as Spritesmith.SpritesmithParams['engine'],
+            engineOpts: moduleOptions.engineOpts,
           },
           (err, result) => {
             if (err) {
@@ -201,6 +178,7 @@ export default defineNuxtModule<ModuleOptions>({
         if (results.standard) {
           cssContent += `.${iconImageClassName} {
           display: inline-block;
+          background-repeat: no-repeat;
           background-image: url('${standardSpritesheetPath}');
         }\n`
 
@@ -227,6 +205,7 @@ export default defineNuxtModule<ModuleOptions>({
               (-webkit-min-device-pixel-ratio: ${retinaOptions.ratio}),
               (min-resolution: ${retinaOptions.ratio * 96}dpi) {
               .${iconImageClassName} {
+                background-repeat: no-repeat;
                 background-image: url('${retinaSpritesheetPath}');
                 background-size: ${results.standard?.properties.width || 0}px auto;
               }
