@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.1.0
+
+[compare changes](https://github.com/yisibell/nuxt-spritesmith/compare/v1.2.2...v2.1.0)
+
+### 🚀 Enhancements
+
+- V2 ([039715d](https://github.com/yisibell/nuxt-spritesmith/commit/039715d))
+
+### ❤️ Contributors
+
+- Elenh ([@yisibell](http://github.com/yisibell))
+
 ## v1.2.2
 
 [compare changes](https://github.com/yisibell/nuxt-spritesmith/compare/v1.2.1...v1.2.2)
