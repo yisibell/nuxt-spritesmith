@@ -12,5 +12,7 @@ export default defineNuxtConfig({
     retina: {
       enabled: true,
     },
+
+    engine: 'sharpsmith'
   },
 })

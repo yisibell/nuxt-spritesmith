@@ -37,7 +37,7 @@
   },
   "scripts": {
     "prepack": "nuxt-module-build build",
-    "dev": "cross-env NODE_OPTIONS=--trace-deprecation nuxi dev playground",
+    "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "release": "npm run prepack && changelogen --release && npm publish && git push --follow-tags",
@@ -51,6 +51,7 @@
     "chokidar": "^4.0.3",
     "fast-glob": "^3.3.3",
     "fs-extra": "^11.3.0",
+    "sharpsmith": "^1.1.0",
     "spritesmith": "^3.5.1"
   },
   "devDependencies": {
