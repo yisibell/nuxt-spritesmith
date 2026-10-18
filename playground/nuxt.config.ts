@@ -13,6 +13,6 @@ export default defineNuxtConfig({
       enabled: true,
     },
 
-    engine: 'sharpsmith'
+    // engine: 'pixelsmith'
   },
 })
