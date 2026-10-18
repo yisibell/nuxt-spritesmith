@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v2.1.1
+
+[compare changes](https://github.com/yisibell/nuxt-spritesmith/compare/v2.1.0...v2.1.1)
+
+### 🏡 Chore
+
+- Upgrade `sharpsmith` version ([4d81597](https://github.com/yisibell/nuxt-spritesmith/commit/4d81597))
+
+### ❤️ Contributors
+
+- Elenh ([@yisibell](http://github.com/yisibell))
+
 ## v2.1.0
 
 [compare changes](https://github.com/yisibell/nuxt-spritesmith/compare/v1.2.2...v2.1.0)
