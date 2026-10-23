@@ -48,7 +48,6 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.16.0",
-    "chokidar": "^4.0.3",
     "fast-glob": "^3.3.3",
     "fs-extra": "^11.3.0",
     "sharpsmith": "^1.1.4",
