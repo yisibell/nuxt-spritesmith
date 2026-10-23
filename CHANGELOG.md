@@ -1,6 +1,20 @@
 # Changelog
 
 
+## v2.1.2
+
+[compare changes](https://github.com/yisibell/nuxt-spritesmith/compare/v2.1.1...v2.1.2)
+
+### 🏡 Chore
+
+- Update playground demo ([53879d9](https://github.com/yisibell/nuxt-spritesmith/commit/53879d9))
+- Remove useless deps `chokidar` ([4f106ca](https://github.com/yisibell/nuxt-spritesmith/commit/4f106ca))
+
+### ❤️ Contributors
+
+- Wenqing <wenqing@kerrylan.com>
+- Elenh <yisiwings@163.com>
+
 ## v2.1.1
 
 [compare changes](https://github.com/yisibell/nuxt-spritesmith/compare/v2.1.0...v2.1.1)
