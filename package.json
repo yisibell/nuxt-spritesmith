@@ -1,6 +1,6 @@
 {
   "name": "nuxt-spritesmith",
-  "version": "2.1.2",
+  "version": "2.2.0",
   "description": "A Nuxt(3) module for generate sprite image icons via spritesmith.",
   "author": {
     "name": "elenh",
@@ -39,7 +39,7 @@
     "prepack": "nuxt-module-build build",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
-    "dev:prepare": "nuxt-module-build --stub && nuxt-module-build prepare && nuxi prepare playground",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "release": "npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "release:lint:test": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",
@@ -47,7 +47,6 @@
     "test:watch": "vitest watch"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.16.0",
     "fast-glob": "^3.3.3",
     "fs-extra": "^11.3.0",
     "sharpsmith": "^1.1.4",
@@ -55,8 +54,9 @@
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^1.16.0",
+    "@nuxt/kit": "3.16.0",
     "@nuxt/module-builder": "1.0.3",
-    "@nuxt/schema": "^3.16.0",
+    "@nuxt/schema": "3.16.0",
     "@nuxt/test-utils": "^3.15.4",
     "@types/fs-extra": "^11.0.4",
     "@types/spritesmith": "^3.4.5",
@@ -65,11 +65,16 @@
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.18.0",
     "eslint-plugin-format": "^2.0.1",
-    "nuxt": "^3.16.0",
+    "nuxt": "3.16.0",
     "prettier": "^3.4.2",
     "sass": "^1.102.0",
     "typescript": "~5.6.2",
     "vitest": "^3.0.3",
     "vue-tsc": "^2.2.0"
+  },
+  "peerDependencies": {
+    "nuxt": ">=3.16.0 <4.5",
+    "@nuxt/kit": ">=3.16.0 <4.5",
+    "@nuxt/schema": ">=3.16.0 <4.5"
   }
 }
