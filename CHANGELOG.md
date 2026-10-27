@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v2.2.0
+
+[compare changes](https://github.com/yisibell/nuxt-spritesmith/compare/v2.1.2...v2.2.0)
+
+### 🚀 Enhancements
+
+- Add peer deps ([b226026](https://github.com/yisibell/nuxt-spritesmith/commit/b226026))
+
+### 🏡 Chore
+
+- Update playground ([a3f356d](https://github.com/yisibell/nuxt-spritesmith/commit/a3f356d))
+
+### ❤️ Contributors
+
+- Wenqing <wenqing@kerrylan.com>
+
 ## v2.1.2
 
 [compare changes](https://github.com/yisibell/nuxt-spritesmith/compare/v2.1.1...v2.1.2)
